@@ -1,0 +1,77 @@
+import numpy as np
+import torch
+from torch.utils.data import Dataset
+def normalize_per_patient(images, method='zscore'):
+    """
+This script was adapted from code obtained from Maryam Bagharian for normalizing per patient of the ABIDE dataset, 
+that I modified to work with my current data flow. I also created a script called run_norm_abide.py that utilizes this code to load the ABIDE data, 
+apply normalization, and save the normalized data to a .pt file for testing. The dataset class also includes an option for augmentation, 
+which applies noise to the normalized data to create augmented samples. The code also ensures that the augmented matrices remain symmetric and have valid ranges after augmentation.
+    """
+    if method == 'zscore':
+        # Z-score normalization (mean=0, std=1)
+        return (images - np.mean(images, axis=(1, 2), keepdims=True)) / np.std(images, axis=(1, 2), keepdims=True)
+    elif method == 'minmax':
+        # Min-max normalization (range [0, 1])
+        min_vals = np.min(images, axis=(1, 2), keepdims=True)
+        max_vals = np.max(images, axis=(1, 2), keepdims=True)
+        return (images - min_vals) / (max_vals - min_vals)
+    else:
+        raise ValueError(f"Unsupported normalization method: {method}")
+class NormalizedABIDEDataset(Dataset):
+    def __init__(self, images, labels, class_names, augment=False, normalize_method='zscore'):
+        # Apply patient-wise normalization
+        self.images = normalize_per_patient(images, method=normalize_method)
+        self.labels = labels
+        self.class_names = class_names
+        self.augment = augment
+       
+        if augment:
+            self.images, self.labels = self.augment_connectivity_matrices(self.images, labels)
+       
+        print(f"✅ Applied {normalize_method} normalization per patient")
+        print(f"   Data range: [{np.min(self.images):.3f}, {np.max(self.images):.3f}]")
+        print(f"   Data mean: {np.mean(self.images):.3f}, std: {np.std(self.images):.3f}")
+   
+    def augment_connectivity_matrices(self, connectivity_matrices, labels, augmentation_factor=2):
+        """Augment brain connectivity matrices"""
+        augmented_matrices = []
+        augmented_labels = []
+       
+        for matrix, label in zip(connectivity_matrices, labels):
+            # Original matrix
+            augmented_matrices.append(matrix)
+            augmented_labels.append(label)
+           
+            for _ in range(augmentation_factor):
+                # Add Gaussian noise
+                noise = np.random.normal(0, 0.02, matrix.shape)  # Reduced noise for normalized data
+                augmented_matrix = matrix + noise
+               
+                # Ensure symmetry and valid range
+                augmented_matrix = (augmented_matrix + augmented_matrix.T) / 2
+                np.fill_diagonal(augmented_matrix, 1.0)
+                augmented_matrix = np.clip(augmented_matrix, -3, 3)  # Wider range for normalized data
+               
+                augmented_matrices.append(augmented_matrix)
+                augmented_labels.append(label)
+       
+        return np.array(augmented_matrices), np.array(augmented_labels)
+   
+    def __len__(self):
+        return len(self.images)
+   
+    def __getitem__(self, idx):
+        image = self.images[idx]
+        label = self.labels[idx]
+       
+        if self.augment and np.random.random() > 0.5:
+            # Gentle augmentation for normalized data
+            noise_std = 0.02  # Reduced noise for normalized data
+            noise = np.random.normal(0, noise_std, image.shape)
+            image = image + noise
+            image = (image + image.T) / 2  # Maintain symmetry
+            np.fill_diagonal(image, 1.0)   # Keep diagonal as 1
+       
+        image_tensor = torch.from_numpy(image).float().unsqueeze(0)
+        return image_tensor, label 
