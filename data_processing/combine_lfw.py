@@ -1,6 +1,5 @@
 import torch
 '''This script is designed to merge two .pt files. This file was used specifically to merge the augmented LFW datasets into a single file for training.
-It was created with the assistance of AI and is currently hard coded for the use case of merging the two LFW datasets. 
 It can be easily modified to merge any two .pt files with the same structure.'''
 def merge_pt_files(file1_path, file2_path, output_path):
     print("Loading first file")
