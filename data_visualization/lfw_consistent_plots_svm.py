@@ -11,8 +11,7 @@ from sklearn.metrics import (accuracy_score, precision_recall_fscore_support,
                              calinski_harabasz_score)
 
 '''This Script trains an SVM classifier on the embeddings of the CNN_ed model for the LFW dataset and evaluates its performance using classification metrics and separation metrics.
-It also visualizes the SVM decision space using UMAP. This code was adapted from code that Maryam Bagharian gave me for the evaluation of the CNN_ed model, 
-and I modified it to handle the SVM evaluation and visualization with the assistance of AI.'''
+It also visualizes the SVM decision space using UMAP. This code combines the utility of lfw_consistent_plots_cnn.py and consistent_plots_svm.py.'''
 def evaluate_and_visualize_clean(embeddings, labels):
     # Style Setup
     plt.style.use('seaborn-v0_8-muted') 
