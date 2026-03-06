@@ -3,7 +3,7 @@ import umap
 import numpy as np
 import matplotlib.pyplot as plt
 '''This script is designed to visualize the CNN-derived embeddings and the raw data using UMAP. 
-Different color schemes are applied to distinguish between classes, and the visualizations are styled for clarity and consistency with the project.'''
+Different color schemes are applied to distinguish between classes and datasets. The visualizations are styled for clarity and consistency with the project.'''
 def visualize_cnn_embeddings(embeddings, labels, dataset_name, title):
     """
     Refined UMAP visualization with a top-aligned, borderless legend.
