@@ -9,9 +9,7 @@ import h5py
 
 
 '''This script trains an encoder-decoder CNN currently set up to run on the dimensions of the LFW dataset. 
-It creates the CNN, saves the best model, and extracts embeddings to an HDF5 file.
-This file was compiled from code that Maryam Bagharian gave me for the encoder-decoder architecture, 
-and code from my plain CNN file for the training loop and data loading.'''
+It creates the CNN, saves the best model, and extracts embeddings to an HDF5 file.'''
 
 #File names and paths
 h5_name = 'norm_lfw_10_aug_3_shifted_CNN.h5'
