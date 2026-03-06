@@ -3,10 +3,10 @@ import h5py
 from scipy.io import loadmat
 from numpy.linalg import svd
 
-
 '''This script implements a sliding-window MP-PCA denoiser for 3D image data. 
-It was taken from the original MATLAB code created by NeuroPhysics at CFIN, Aarhus University, and adapted to Python using AI. 
+It was taken from the original MATLAB code created by NeuroPhysics at CFIN, Aarhus University, and adapted to Python with the help AI. 
 Matlab code source link: https://github.com/Neurophysics-CFIN/MP-PCA-Denoising'''
+
 # Helper: imageAssert
 def imageAssert(image, mask):
     image = np.asarray(image)
