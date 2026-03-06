@@ -3,10 +3,10 @@ import torch
 from torch.utils.data import Dataset
 def normalize_per_patient(images, method='zscore'):
     """
-This script was adapted from code obtained from Maryam Bagharian for normalizing per patient of the ABIDE dataset, 
-that I modified to work with my current data flow. I also created a script called run_norm_abide.py that utilizes this code to load the ABIDE data, 
-apply normalization, and save the normalized data to a .pt file for testing. The dataset class also includes an option for augmentation, 
-which applies noise to the normalized data to create augmented samples. The code also ensures that the augmented matrices remain symmetric and have valid ranges after augmentation.
+This script contains the functions needed to per patien normalize the ABIDE dataset, 
+run_norm_abide.py utilizes this code to load the ABIDE data, apply normalization, and save the normalized data to a .pt file for testing. 
+The dataset class also includes an option for augmentation, which applies noise to the normalized data to create augmented samples. 
+The code also ensures that the augmented matrices remain symmetric and have valid ranges after augmentation.
     """
     if method == 'zscore':
         # Z-score normalization (mean=0, std=1)
@@ -29,7 +29,7 @@ class NormalizedABIDEDataset(Dataset):
         if augment:
             self.images, self.labels = self.augment_connectivity_matrices(self.images, labels)
        
-        print(f"✅ Applied {normalize_method} normalization per patient")
+        print(f"   Applied {normalize_method} normalization per patient")
         print(f"   Data range: [{np.min(self.images):.3f}, {np.max(self.images):.3f}]")
         print(f"   Data mean: {np.mean(self.images):.3f}, std: {np.std(self.images):.3f}")
    
