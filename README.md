@@ -21,19 +21,26 @@ Included is the code created to process the data using out pipline the full pipe
 
 The repository is organized into functional modules. Each script is designed to handle a specific stage of the machine learning pipeline, from raw data denoising to multi-teacher distillation.
 
-### 1. Data Preprocessing & Preparation
-* **`mppca_denoise.py`**: Implements a sliding-window MP-PCA denoiser for 3D image data. (Adapted to Python from the original MATLAB code by NeuroPhysics at CFIN).
-* **`norm_abide.py` / `run_norm_abide.py`**: Handles per-patient normalization (Z-score or Min-Max) for the ABIDE connectivity matrices, including symmetric data augmentation.
-* **`lfw_subset_creator.py` / `combine_lfw.py`**: Tools for managing the LFW dataset, including splitting by image count and merging augmented `.pt` files.
-* **`shift_labels.py`**: Ensures label consistency when combining datasets by shifting label indices to prevent overlap between subsets.
+### data_preprocessing
+Tools for cleaning, normalizing, and preparing the ABIDE and LFW datasets.
+* **`mppca_denoise.py`**: Sliding-window MP-PCA denoiser for 3D image data (adapted from NeuroPhysics MATLAB).
+* **`norm_abide.py` / `run_norm_abide.py`**: Patient-wise normalization (Z-score/Min-Max) and symmetric augmentation for ABIDE matrices.
+* **`lfw_subset_creator.py` / `combine_lfw.py`**: Scripts for splitting LFW by image count and merging augmented `.pt` files.
+* **`shift_labels.py`**: Utility to adjust label indices when merging datasets to prevent overlap.
+* **`LFWDownload.py`**: Utility script for fetching the raw LFW dataset.
 
-### 2. Model Architectures & Training
-* **`cnn_ed.py`**: Trains the CNN with an encoder-decoder architecture. It extracts high-dimensional embeddings and saves them to HDF5 format for downstream classification.
-* **`regular_cnn.py`**: A baseline training script for a standard CNN used to compare performance against the encoder-decoder and KD models.
-* **`dual_teacher.py`**: The core **Knowledge Distillation** script. It utilizes two pre-trained teachers ($T_1$ and $T_2$) and implements **selective distillation**, where the student learns from the "expert" teacher for a specific sample.
+### cnn_models
+Core architectures and training logic for the integrated pipeline.
+* **`dual_teacher.py`**: Implementation of **Multi-Teacher Knowledge Distillation** with selective distillation logic.
+* **`cnn_ed.py`**: Training script for the CNN Encoder-Decoder architecture and embedding extraction.
+* **`regular_cnn.py`**: Standard CNN implementation used for baseline performance comparisons.
 
-### 3. Evaluation & Analysis
-* **`lfw_consistent_plots_svm.py` / `consistent_plots_svm.py`**: Trains an SVM classifier on the CNN-derived embeddings and evaluates performance using Accuracy, F1-score, and UMAP decision space visualizations.
-* **`model_eval_KD.py` / `model_eval_cnn_ed.py`**: Comprehensive evaluation suites that compute classification metrics and clustering metrics (Silhouette, Davies-Bouldin, and Calinski-Harabasz).
-* **`compare_clustering.py`**: A visualization tool to compare the performance of PCA, t-SNE, and UMAP across different embedding types.
-* **`consistent_plots_CNN.py` / `lfw_consistent_plots_cnn.py`**: Generates standardized UMAP visualizations to ensure visual consistency across different experimental runs.
+### model_evaluation
+Scripts to measure model performance and classification accuracy.
+* **`lfw_consistent_plots_svm.py` / `consistent_plots_svm.py`**: Trains SVM classifiers on CNN embeddings and evaluates them using classification and separation metrics.
+* **`model_eval_KD.py` / `model_eval_cnn_ed.py`**: Computes Accuracy, F1-Score, and clustering metrics (Silhouette, Davies-Bouldin) for the student and ED models.
+
+### data_visualization
+Standardized plotting tools for research consistency.
+* **`compare_clustering.py`**: Comparative analysis of PCA, t-SNE, and UMAP dimensionality reduction.
+* **`consistent_plots_CNN.py` / `lfw_consistent_plots_cnn.py`**: Standardized UMAP visualization suite for feature embeddings.
