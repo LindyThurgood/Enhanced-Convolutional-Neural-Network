@@ -17,7 +17,8 @@ The data utilized in this research are ABIDE I (2016), Labeled Faces In the Wild
 | **Olivetti** | <img width="173" alt="Olivetti single face" src="https://github.com/user-attachments/assets/ed434075-4c60-4006-985e-b5f874ee6b91" /> | Facial recognition | 40 individuals |
 
 
-Included is the code created to process the data using out pipline the full pipeline is described in the following figure: <img width="2350" height="1824" alt="Model structure with utilized images" src="https://github.com/user-attachments/assets/c0fe2c27-d67a-4a64-aca2-a5a40b87e6b5" />
+Included is the code created to process the data using out pipline the full pipeline is described in the following figure: <img width="561" height="443" alt="Combined Pipeline flow left and right" src="https://github.com/user-attachments/assets/89068f89-e500-45f0-aa59-9d4fce3e6696" />
+
 
 The repository is organized into functional modules. Each script is designed to handle a specific stage of the machine learning pipeline, from raw data denoising to multi-teacher distillation.
 
