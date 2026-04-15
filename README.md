@@ -16,4 +16,4 @@ The data utilized in this research are ABIDE I (2016), Labeled Faces In the Wild
 | **LFW** | <img width="174" alt="LFW Single face" src="https://github.com/user-attachments/assets/cadea331-ef6d-4e06-bf27-38c31f0cdc82" /> | Facial recognition | 5,479 individuals |
 | **Olivetti** | <img width="173" alt="Olivetti single face" src="https://github.com/user-attachments/assets/ed434075-4c60-4006-985e-b5f874ee6b91" /> | Facial recognition | 40 individuals |
 
-Our Pipeline is described in the following figure: <img width="2350" height="1824" alt="Model structure with utilized images" src="https://github.com/user-attachments/assets/c0fe2c27-d67a-4a64-aca2-a5a40b87e6b5" />
+Included is the code created to process the data using out pipline the full pipeline is described in the following figure: <img width="2350" height="1824" alt="Model structure with utilized images" src="https://github.com/user-attachments/assets/c0fe2c27-d67a-4a64-aca2-a5a40b87e6b5" />
