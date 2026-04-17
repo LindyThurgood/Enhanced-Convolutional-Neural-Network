@@ -22,26 +22,31 @@ The pipeline utilized is described in the following figure: <img width="842" hei
 
 The repository is organized into functional modules. Each script is designed to handle a specific stage of the machine learning pipeline, from raw data denoising to multi-teacher distillation.
 
-### data_preprocessing
-Tools for cleaning, normalizing, and preparing the ABIDE and LFW datasets.
-* **`mppca_denoise.py`**: Sliding-window MP-PCA denoiser for 3D image data (adapted from NeuroPhysics MATLAB).
-* **`norm_abide.py` / `run_norm_abide.py`**: Patient-wise normalization (Z-score/Min-Max) and symmetric augmentation for ABIDE matrices.
-* **`lfw_subset_creator.py` / `combine_lfw.py`**: Scripts for splitting LFW by image count and merging augmented `.pt` files.
+#### **data_processing**
+Tools for cleaning, normalizing, and preparing the datasets.
+* **`mppca_denoise.py`**: Sliding-window MP-PCA denoiser for 3D image data.
+* **`data_normalization.py`**: Methods for Z-score and Min-Max scaling.
+* **`data_augmentation.py`**: Scripts for symmetric augmentation and data expansion.
+* **`norm_aug_abide.py`**: Per-Patient normalization and augmentation specific to ABIDE connectivity matrices.
+* **`lfw_subset_creator.py` / `combine_lfw.py`**: Logic for splitting LFW by class observation count and merging augmented tensor files.
 * **`shift_labels.py`**: Utility to adjust label indices when merging datasets to prevent overlap.
-* **`LFWDownload.py`**: Utility script for fetching the raw LFW dataset.
 
-### cnn_models
+#### **cnn_models**
 Core architectures and training logic for the integrated pipeline.
-* **`dual_teacher.py`**: Implementation of **Multi-Teacher Knowledge Distillation** with selective distillation logic.
-* **`cnn_ed.py`**: Training script for the CNN Encoder-Decoder architecture and embedding extraction.
-* **`regular_cnn.py`**: Standard CNN implementation used for baseline performance comparisons.
+* **`cnn_regular.py`**: Standard CNN implementation used for baseline performance comparisons (Items 1 & 2).
+* **`cnn_ed.py`**: Training script for the CNN Encoder-Decoder architecture (Item 3).
+* **`single_teacher_KD.py`**: Implementation of Knowledge Distillation using a single teacher model (Item 4).
+* **`dual_teacher_KD.py`**: Implementation of **Multi-Teacher Knowledge Distillation** with selective logic (Item 4 - specifically when processing LFW dataset).
 
-### model_evaluation
+#### **model_evaluation**
 Scripts to measure model performance and classification accuracy.
-* **`lfw_consistent_plots_svm.py` / `consistent_plots_svm.py`**: Trains SVM classifiers on CNN embeddings and evaluates them using classification and separation metrics.
-* **`model_eval_KD.py` / `model_eval_cnn_ed.py`**: Computes Accuracy, F1-Score, and clustering metrics (Silhouette, Davies-Bouldin) for the student and ED models.
+* **`model_eval_regular_cnn.py`**: Evaluation metrics for the baseline CNN models.
+* **`model_eval_cnn_ed.py`**: Computes performance and embedding quality for the Encoder-Decoder model.
+* **`model_eval_single_teacher_KD.py` / `model_eval_dual_teacher_KD.py`**: Performance analysis for the student models post-distillation.
+* **`compare_clustering.py`**: Evaluates CNN embeddings performance as opposed to other traditional clustering methods, producing a detailed plot comparison.
 
-### data_visualization
-Standardized plotting tools for research consistency.
-* **`compare_clustering.py`**: Comparative analysis of PCA, t-SNE, and UMAP dimensionality reduction.
-* **`consistent_plots_CNN.py` / `lfw_consistent_plots_cnn.py`**: Standardized UMAP visualization suite for feature embeddings.
+#### **data_visualization**
+Tools for generating plots and comparative overviews.
+* **`dataset_model_overview.py`**: Visualizations for data distribution for a single dataset overall 4 models after model formations utilizing model embeddings.
+* **`consistent_plots_cnn.py` / `consistent_plots_svm.py`**: Generates standardized performance plots for the core classifiers.
+* **`lfw_consistent_plots_cnn.py` / `lfw_consistent_plots_svm.py`**: Tailored visualization scripts for the LFW dataset.
