@@ -13,9 +13,9 @@ from sklearn.metrics import (
 import numpy as np
 import h5py
 from norm_abide import augment_connectivity_matrices
-from new_aug import perform_torchvision_augmentation
+from image_augmentation import perform_torchvision_augmentation
 import torchvision.transforms as T
-from Norm4D import augment_images
+from generic_data_augmentation import augment_images
 
 
 '''
